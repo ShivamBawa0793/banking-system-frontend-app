@@ -1,0 +1,20 @@
+{
+  "name": "banking-system-frontend-app",
+  "version": "1.0.0",
+  "description": "This is front end repo for banking system backend api.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ShivamBawa0793/banking-system-frontend-app.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ShivamBawa0793/banking-system-frontend-app/issues"
+  },
+  "homepage": "https://github.com/ShivamBawa0793/banking-system-frontend-app#readme"
+}
