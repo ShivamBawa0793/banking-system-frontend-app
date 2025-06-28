@@ -53,8 +53,7 @@ function App() {
 
   // Function to create a new account
   const handleCreateAccount = async () => {
-    clearDetails(); // Clear details and balance at the start
-    setMessage('');
+    clearDetails(); // Clears all relevant fields
     try {
       const response = await createAccount(accountId);
       setMessage(response.message || 'Account creation success!');
@@ -67,19 +66,17 @@ function App() {
 
   // Function to get account details by ID
   const handleGetAccountById = async () => {
-    setMessage('');
-    setAccountDetails(null);
-    setQueriedBalance(null);
+    clearDetails(); // Clears all relevant fields
     try {
       const response = await getAccountById(checkBalanceId);
       console.log('Get account by ID response:', response);
       if (response) {
         setAccountDetails(response);
         setMessage('Account details fetched successfully.');
-        setCheckBalanceId(''); // Clear the input field after fetching details
+        setCheckBalanceId(''); // Optionally clear input after fetching
       } else {
         setMessage('No account found with that ID');
-        setCheckBalanceId(''); // Clear the input field after fetching details
+        setCheckBalanceId('');
       }
     } catch (error) {
       setMessage(`Error fetching account details: ${error.message}`);
@@ -88,18 +85,16 @@ function App() {
 
   // Function to check balance of an account
   const handleCheckBalance = async () => {
-    setMessage('');
-    setAccountDetails(null);
-    setQueriedBalance(null);
+    clearDetails(); // Clears all relevant fields
     try {
       const response = await getAccountById(checkBalanceId);
       console.log('Check balance response:', response);
       if (response) {
         setQueriedBalance(response.balance);
-        setMessage(`Balance for account ${checkBalanceId} is $${response.balance}`);
+        setMessage(`Balance for account ${checkBalanceId} is ₹${response.balance}`);
       } else {
         setMessage('No account found with that ID');
-        setCheckBalanceId(''); // Clear the input field after checking balance
+        setCheckBalanceId('');
       }
     } catch (error) {
       setMessage(`Error checking balance: ${error.message}`);
@@ -108,11 +103,10 @@ function App() {
 
   // Function to handle deposit
   const handleDeposit = async () => {
-    clearDetails(); // Clear details and balance at the start
-    setMessage('');
+    clearDetails(); // Clears all relevant fields
     try {
       const response = await deposit(depositAccountId, depositAmount);
-      setMessage(response.message || 'Deposit successful! New balance: $' + response.newBalance);
+      setMessage(response.message || 'Deposit successful! New balance: ₹' + response.newBalance);
       setdepositAccountId('');
       setDepositAmount('');
       fetchAllAccounts();
@@ -122,20 +116,18 @@ function App() {
   };
 
   // Function to handle transfer
-
   const handleTransfer = async () => {
-    clearDetails(); // Clear details and balance at the start
-    setMessage('');
+    clearDetails(); // Clears all relevant fields
     try {
       const response = await transfer(transferSourceId, transferTargetId, transferAmount);
-      setMessage(response.message || 'Transfer successful! New balance: $' + response.newBalance);
+      setMessage(response.message || 'Transfer successful! New balance: ₹' + response.newBalance);
       setTransferSourceId('');
       setTransferTargetId('');
       setTransferAmount('');
       fetchAllAccounts();
     } catch (error) {
       setMessage(`Error transferring money: ${error.message}`);
-    } 
+    }
   }; 
 
   return (
@@ -215,14 +207,14 @@ function App() {
           {accountDetails && (
             <div className="details">
               <h3>Details for {accountDetails.accountId}</h3>
-              <p>Balance: ${accountDetails.balance}</p>
-              <p>Outgoing: ${accountDetails.totalOutgoing}</p>
+              <p>Balance: ₹{accountDetails.balance}</p>
+              <p>Outgoing: ₹{accountDetails.totalOutgoing}</p>
               <p>Created: {new Date(accountDetails.timeStamp * 1000).toLocaleDateString()}</p>
             </div>
           )}
           {queriedBalance !== null && (
             <div className="details">
-              <h3>Balance for {checkBalanceId}: ${queriedBalance}</h3>
+              <h3>Balance for {checkBalanceId}: ₹{queriedBalance}</h3>
             </div>
           )}
         </section>
@@ -242,7 +234,7 @@ function App() {
               <ul>
                 {topSpendersList.map((spender) => (
                   <li key={spender.accountId}>
-                    {spender.accountId}: ${spender.totalOutgoing}
+                    {spender.accountId}: ₹{spender.totalOutgoing}
                   </li>
                 ))}
               </ul>
@@ -268,8 +260,8 @@ function App() {
                 {accounts.map((acc) => (
                   <tr key={acc.accountId}>
                     <td>{acc.accountId}</td>
-                    <td>${acc.balance}</td>
-                    <td>${acc.totalOutgoing}</td>
+                    <td>₹{acc.balance}</td>
+                    <td>₹{acc.totalOutgoing}</td>
                     <td>{new Date(acc.timeStamp * 1000).toLocaleDateString()}</td>
                   </tr>
                 ))}
