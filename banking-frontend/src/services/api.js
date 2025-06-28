@@ -32,3 +32,35 @@ export const getAllAccounts = async () => {
     });
     return handleResponse(response);
 }
+
+export const getAccountById = async (accountId) => {
+    const response = await fetch(`${API_BASE_URL}/accounts/${accountId}`);
+        return handleResponse(response);
+    }
+
+export const checkBalance = async (accountId) => {
+    const response = await fetch(`${API_BASE_URL}/accounts/balance/${accountId}`);
+    return handleResponse(response);
+}
+
+export const deposit = async (accountId, amount) => {
+    const response = await fetch(`${API_BASE_URL}/deposit`,{
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ accountId, amount }),
+    });
+    return handleResponse(response);
+    }
+
+export const transfer = async (sourceAccountId, targetAccountId, amount) => {
+    const response = await fetch(`${API_BASE_URL}/transfer`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ sourceAccountId, targetAccountId, amount }),
+    });
+    return handleResponse(response);
+}
