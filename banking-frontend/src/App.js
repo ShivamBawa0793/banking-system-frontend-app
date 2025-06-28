@@ -28,6 +28,14 @@ function App() {
     fetchAllAccounts();
   }, []);
 
+  // Function to clear account details and messages
+  const clearDetails = () => {
+  setAccountDetails(null);
+  setQueriedBalance(null);
+  setCheckBalanceId('');
+  setMessage('');
+};
+
   // Function to refresh all accounts (useful after create/deposit/transfer)
   const fetchAllAccounts = async () => {
     try {
@@ -45,14 +53,13 @@ function App() {
 
   // Function to create a new account
   const handleCreateAccount = async () => {
+    clearDetails(); // Clear details and balance at the start
     setMessage('');
-    setAccountDetails(null);
-    setQueriedBalance(null);
     try {
       const response = await createAccount(accountId);
-      console.log('Create account response:', response);
       setMessage(response.message || 'Account creation success!');
-      setAccountId(''); // Clear the input field after successful creation
+      setAccountId('');
+      fetchAllAccounts();
     } catch (error) {
       setMessage(`Error creating account: ${error.message}`);
     }
@@ -101,14 +108,14 @@ function App() {
 
   // Function to handle deposit
   const handleDeposit = async () => {
+    clearDetails(); // Clear details and balance at the start
     setMessage('');
     try {
       const response = await deposit(depositAccountId, depositAmount);
-      console.log('Deposit response:', response);
       setMessage(response.message || 'Deposit successful! New balance: $' + response.newBalance);
       setdepositAccountId('');
-      setDepositAmount(''); // Clear the input field after successful deposit
-      fetchAllAccounts(); // Refresh accounts after deposit
+      setDepositAmount('');
+      fetchAllAccounts();
     } catch (error) {
       setMessage(`Error depositing money: ${error.message}`);
     }
@@ -117,15 +124,15 @@ function App() {
   // Function to handle transfer
 
   const handleTransfer = async () => {
+    clearDetails(); // Clear details and balance at the start
     setMessage('');
     try {
       const response = await transfer(transferSourceId, transferTargetId, transferAmount);
-      console.log('Transfer response:', response);
       setMessage(response.message || 'Transfer successful! New balance: $' + response.newBalance);
       setTransferSourceId('');
       setTransferTargetId('');
-      setTransferAmount(''); // Clear the input field after successful transfer
-      fetchAllAccounts(); // Refresh accounts after transfer
+      setTransferAmount('');
+      fetchAllAccounts();
     } catch (error) {
       setMessage(`Error transferring money: ${error.message}`);
     } 
